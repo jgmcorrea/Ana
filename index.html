@@ -29,7 +29,7 @@
 </head>
 <body>
   <main class="shell">
-    <div class="topbar"><div class="brand"><i class="brand-mark"></i><span>Estratégia de crescimento - Ana Grimm</span></div><div class="pill">M2L DIGITAL</div></div>
+    <div class="topbar"><div class="brand"><i class="brand-mark"></i><span>Estratégia de crescimento - Ana Grimm</span></div><div class="pill">M2L Digital</div></div>
     <section class="hero">
       <div class="hero-copy"><div class="eyebrow">Massagem · Drenagem · Reiki</div><h1>Mais pessoas encontrando o seu cuidado.</h1><p>Uma visão simples para transformar investimento em tráfego em atendimentos, previsibilidade e crescimento sustentável.</p></div>
       <div class="hero-tag">Plano personalizado</div>
@@ -72,7 +72,8 @@
     const number = value => new Intl.NumberFormat('pt-BR',{maximumFractionDigits:0}).format(Math.max(0,value||0));
     function update(){
       const invest = Math.max(0,parseFloat($('invest').value)||0), net = Math.max(0,parseFloat($('net').value)||0), daily = Math.max(0,parseFloat($('daily').value)||0), days = Math.max(1,parseFloat($('days').value)||1), weeks = Math.max(1,parseFloat($('weeks').value)||1), extra = parseInt($('extra').value)||0;
-      const capacity = daily*days*weeks, revenue = capacity*net, breakEven = net ? Math.ceil(invest/net) : 0, profit = extra*net-invest, extraValue=extra*net, share = revenue ? invest/revenue*100 : 0;
+      // A capacidade mensal pode resultar em decimal (ex.: 4 atendimentos/dia × 5 dias × 4,33 semanas = 86,6). Como a tela apresenta atendimentos inteiros, toda a receita deve usar esse mesmo número arredondado.
+      const capacity = Math.round(daily*days*weeks), revenue = capacity*net, breakEven = net ? Math.ceil(invest/net) : 0, profit = extra*net-invest, extraValue=extra*net, share = revenue ? invest/revenue*100 : 0;
       $('capacity').textContent=number(capacity); $('revenue').textContent=brl(revenue); $('share').textContent=share.toFixed(1).replace('.',',')+'%'; $('breakEven').textContent=number(breakEven); $('extraOut').textContent=extra; $('profit').textContent=brl(profit);
       $('barInvestText').textContent=brl(invest); $('barExtraText').textContent=brl(extraValue);
       const maxBar=Math.max(invest,extraValue,1); $('barInvest').style.width=(invest/maxBar*100)+'%'; $('barExtra').style.width=(extraValue/maxBar*100)+'%';
